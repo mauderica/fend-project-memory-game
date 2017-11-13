@@ -25,6 +25,17 @@ function shuffle(array) {
     return array;
 }
 
+// FUNCTION to flip a card:
+function cardFlipper(card) {
+    console.log(`The cardFlipper function has been invoked and was passed ${card}.`);
+    $(card).addClass('open show');
+}
+
+// EVENT LISTENER for a card being clicked:
+$('.deck').on('click', '.card', function () {
+    console.log(`This card (${this}) has been clicked.`);
+    cardFlipper(this);
+});
 
 /*
  * set up the event listener for a card. If a card is clicked:
