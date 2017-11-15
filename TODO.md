@@ -3,7 +3,7 @@
 ## To-Do List
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
-* Matching logic & what happens in each case (incorrect vs. correct match).
+* Matching logic & what happens in each case (incorrect vs. correct match). -- in progress
 * Shuffle functionality.
 * Winning condition & what happens when it is achieved.
 * Review project rubric for additional items.
