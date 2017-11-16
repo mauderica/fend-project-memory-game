@@ -39,8 +39,20 @@ function openCardLister(card) {
     console.log(`This is the openCards array: ${openCards}`);
 }
 
-// EVENT LISTENER for a card being clicked:
-$('.deck').on('click', '.card', function () {
+// FUNCTION to check for the winning condition:
+function winChecker() {
+    // For a win, all <li> elements with class "card" need to also have the class "match"
+    const winCheck = $('li.card:not(.match)').length;
+    if (winCheck === 0) {
+        // display a message with the final score (put this functionality in another function that you call from this one)
+        console.log('YOU WIN, YAAAY!');
+    } else {
+        console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
+    }
+}
+
+// EVENT LISTENER for a card being clicked (only to be fired if the card is unmatched and has not already been opened):
+$('.deck').on('click', '.card:not(.show)', function () {
     console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
     cardDisplayer(this);
     openCardLister(this);
@@ -54,13 +66,17 @@ $('.deck').on('click', '.card', function () {
         // Check whether card2 child has the same class as card1 child:
         const isMatch = $(card2).children().hasClass(card1Symbol);
         if(isMatch) {
-            // lock the cards in open position and change their color/style (create separate function for this to call here)
+            // Lock the cards in open position and change their color/style (create separate function for this to call here)
+            // (Before factoring the below out into a function, card1 and card2 will need to be placed in an outer scope)
             console.log('The cards match, yay!');
-            $(card1).toggleClass('open show match');
-            $(card2).toggleClass('open show match');
+            $(card1).toggleClass('open match');
+            $(card2).toggleClass('open match');
             openCards.splice(0);
+            // Check for winning condition:
+            winChecker();
         } else {
             // remove the cards from the openCards list and hide the card's symbol (create separate function for this to call here)
+            // (Before factoring the below out into a function, card1 and card2 will need to be placed in an outer scope)
             console.log('The cards do not match, boohoo');
             openCards.splice(0);
             $(card1).addClass('noMatch');
