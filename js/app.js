@@ -63,10 +63,12 @@ $('.deck').on('click', '.card', function () {
             // remove the cards from the openCards list and hide the card's symbol (create separate function for this to call here)
             console.log('The cards do not match, boohoo');
             openCards.splice(0);
-            $(card1).addClass('noMatch'); // find a way to make this styling show before it all gets removed and the card is flipped face down
-            $(card2).addClass('noMatch'); // same
-            $(card1).toggleClass('open show noMatch');
-            $(card2).toggleClass('open show noMatch');
+            $(card1).addClass('noMatch');
+            $(card2).addClass('noMatch');
+            window.setTimeout(function(){
+                $(card1).toggleClass('open show noMatch');
+                $(card2).toggleClass('open show noMatch');
+            }, 1000); // standard format for ease of reading?
         }
         // Increment the move counter and display it on the page (create separate function for this to call here)
         // ...
