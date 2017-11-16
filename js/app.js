@@ -46,19 +46,27 @@ $('.deck').on('click', '.card', function () {
     openCardLister(this);
     // If the list of un-matched open cards already has another card, check to see if the two cards match:
     if (openCards.length > 1) {
-        const card1 = $(openCards[0]).children();
-        const card2 = $(openCards[1]).children();
+        const card1 = openCards[0];
+        const card2 = openCards[1];
         // Get the symbol of card1 (which is stored in its child's class):
-        const card1Symbol = $(card1).attr('class');
+        const card1Symbol = $(card1).children().attr('class');
         console.log(`Card1's symbol is: ${card1Symbol}`);
-        // Check whether card2 has the same class as card1:
-        const isMatch = $(card2).hasClass(card1Symbol);
+        // Check whether card2 child has the same class as card1 child:
+        const isMatch = $(card2).children().hasClass(card1Symbol);
         if(isMatch) {
             // lock the cards in open position and change their color/style (create separate function for this to call here)
             console.log('The cards match, yay!');
+            $(card1).toggleClass('open show match');
+            $(card2).toggleClass('open show match');
+            openCards.splice(0);
         } else {
             // remove the cards from the openCards list and hide the card's symbol (create separate function for this to call here)
             console.log('The cards do not match, boohoo');
+            openCards.splice(0);
+            $(card1).addClass('noMatch'); // find a way to make this styling show before it all gets removed and the card is flipped face down
+            $(card2).addClass('noMatch'); // same
+            $(card1).toggleClass('open show noMatch');
+            $(card2).toggleClass('open show noMatch');
         }
         // Increment the move counter and display it on the page (create separate function for this to call here)
         // ...
