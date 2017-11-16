@@ -3,9 +3,7 @@
 ## To-Do List
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
-* Matching logic & what happens in each case (incorrect vs. correct match). -- in progress
-    * Locking the matched cards so that they can no longer be clicked nor trigger the click event listener. -- in progress
-    * Preventing the event listener from firing on an already opened card. -- in progress
+* Refactoring
 * Incrementing of move counter & adding it to the page.
 * Shuffle functionality.
 * Winning condition & what happens when it is achieved. -- in progress
@@ -27,4 +25,7 @@
 * Add `<script>` for jQuery. -- done
 * Add section comments to HTML for ease of reading. -- done
 * Functionality to handle clicks & revealing the hidden side of a card. -- done
+* Matching logic & what happens in each case (incorrect vs. correct match). -- done
+    * Locking the matched cards so that they can no longer be clicked nor trigger the click event listener. -- done
+    * Preventing the event listener from firing on an already opened card. -- done
 

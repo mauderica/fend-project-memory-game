@@ -36,7 +36,7 @@ const openCards = []; // can/should this be placed inside the openCardLister fun
 
 function openCardLister(card) {
     openCards.push(card);
-    console.log(`This is the openCards array: ${openCards}`);
+    console.log(`This is the openCards array now: ${openCards}`);
 }
 
 // FUNCTION to check for the winning condition:
