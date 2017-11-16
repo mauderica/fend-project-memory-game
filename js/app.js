@@ -1,3 +1,4 @@
+$(function() {
 /*
  * Create a list that holds all of your cards
  */
@@ -25,16 +26,71 @@ function shuffle(array) {
     return array;
 }
 
-// FUNCTION to flip a card:
-function cardFlipper(card) {
-    console.log(`The cardFlipper function has been invoked and was passed ${card}.`);
+// FUNCTION to display a card's symbol:
+function cardDisplayer(card) {
     $(card).addClass('open show');
 }
 
-// EVENT LISTENER for a card being clicked:
-$('.deck').on('click', '.card', function () {
-    console.log(`This card (${this}) has been clicked.`);
-    cardFlipper(this);
+// FUNCTION to add a card to an array containing un-matched open cards:
+const openCards = []; // can/should this be placed inside the openCardLister function? diagram it out...
+
+function openCardLister(card) {
+    openCards.push(card);
+    console.log(`This is the openCards array now: ${openCards}`);
+}
+
+// FUNCTION to check for the winning condition:
+function winChecker() {
+    // For a win, all <li> elements with class "card" need to also have the class "match"
+    const winCheck = $('li.card:not(.match)').length;
+    if (winCheck === 0) {
+        // display a message with the final score (put this functionality in another function that you call from this one)
+        console.log('YOU WIN, YAAAY!');
+    } else {
+        console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
+    }
+}
+
+// EVENT LISTENER for a card being clicked (only to be fired if the card is unmatched and has not already been opened):
+$('.deck').on('click', '.card:not(.show)', function () {
+    console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
+    cardDisplayer(this);
+    openCardLister(this);
+    // If the list of un-matched open cards already has another card, check to see if the two cards match:
+    if (openCards.length > 1) {
+        const card1 = openCards[0];
+        const card2 = openCards[1];
+        // Get the symbol of card1 (which is stored in its child's class):
+        const card1Symbol = $(card1).children().attr('class');
+        console.log(`Card1's symbol is: ${card1Symbol}`);
+        // Check whether card2 child has the same class as card1 child:
+        const isMatch = $(card2).children().hasClass(card1Symbol);
+        if(isMatch) {
+            // Lock the cards in open position and change their color/style (create separate function for this to call here)
+            // (Before factoring the below out into a function, card1 and card2 will need to be placed in an outer scope)
+            console.log('The cards match, yay!');
+            $(card1).toggleClass('open match');
+            $(card2).toggleClass('open match');
+            openCards.splice(0);
+            // Check for winning condition:
+            winChecker();
+        } else {
+            // remove the cards from the openCards list and hide the card's symbol (create separate function for this to call here)
+            // (Before factoring the below out into a function, card1 and card2 will need to be placed in an outer scope)
+            console.log('The cards do not match, boohoo');
+            openCards.splice(0);
+            $(card1).addClass('noMatch');
+            $(card2).addClass('noMatch');
+            window.setTimeout(function(){
+                $(card1).toggleClass('open show noMatch');
+                $(card2).toggleClass('open show noMatch');
+            }, 1000); // standard format for ease of reading?
+        }
+        // Increment the move counter and display it on the page (create separate function for this to call here)
+        // ...
+    } else {
+        console.log (`There is currently only ${openCards.length} unmatched card open.`);
+    }
 });
 
 /*
@@ -47,3 +103,4 @@ $('.deck').on('click', '.card', function () {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+});
