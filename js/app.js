@@ -51,6 +51,19 @@ function winChecker() {
     }
 }
 
+// FUNCTION to increment the move count and display it to the page:
+let moveCount = 0;
+
+function moveCounter() {
+    moveCount++;
+    // Display the updated count on the page score panel:
+    if (moveCount === 1) {
+        $('.moves').text(`${moveCount} Move`);
+    } else {
+        $('.moves').text(`${moveCount} Moves`);
+    }
+}
+
 // EVENT LISTENER for a card being clicked (only to be fired if the card is unmatched and has not already been opened):
 $('.deck').on('click', '.card:not(.show)', function () {
     console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
@@ -86,8 +99,8 @@ $('.deck').on('click', '.card:not(.show)', function () {
                 $(card2).toggleClass('open show noMatch');
             }, 1000); // standard format for ease of reading?
         }
-        // Increment the move counter and display it on the page (create separate function for this to call here)
-        // ...
+        // Increment the move count and display it on the page (create separate function for this to call here)
+        moveCounter();
     } else {
         console.log (`There is currently only ${openCards.length} unmatched card open.`);
     }

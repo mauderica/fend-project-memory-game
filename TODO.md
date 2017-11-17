@@ -4,7 +4,8 @@
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
-* Incrementing of move counter & adding it to the page.
+* Incrementing of move counter & adding it to the page. -- done
+    * Star rating -- in progress
 * Shuffle functionality.
 * Winning condition & what happens when it is achieved. -- in progress
 * Review project rubric for additional items.
