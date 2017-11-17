@@ -71,11 +71,12 @@ function scoreUpdater() {
     */
     switch (moveCount) {
         case 1:
-            $('.moves').text(`${moveCount} Move`);
+            displayMove();
+            $('.moves').siblings('span').text(' Move');
             break;
         case 2:
             displayMove();
-            $('.moves').after('<span> Moves</span>');
+            $('.moves').siblings('span').text(' Moves');
             break;
         case 10:
         case 15:
