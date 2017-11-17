@@ -54,13 +54,35 @@ function winChecker() {
 // FUNCTION to increment the move count and display it to the page:
 let moveCount = 0;
 
-function moveCounter() {
+function scoreUpdater() {
+    // Increment the move count:
     moveCount++;
-    // Display the updated count on the page score panel:
-    if (moveCount === 1) {
-        $('.moves').text(`${moveCount} Move`);
-    } else {
-        $('.moves').text(`${moveCount} Moves`);
+    // FUNCTION to remove stars:
+    function starRemover() {
+        $('.fa-star').last().toggleClass('fa-star fa-star-o');
+    }
+    // FUNCTION to display the move count to the page:
+    function displayMove() {
+        $('.moves').text(`${moveCount}`);
+    }
+    /*
+    Display the updated count on the page score panel
+    & change the star rating depending on the move count:
+    */
+    switch (moveCount) {
+        case 1:
+            $('.moves').text(`${moveCount} Move`);
+            break;
+        case 2:
+            displayMove();
+            $('.moves').after('<span> Moves</span>');
+            break;
+        case 10:
+        case 15:
+        case 20:
+            starRemover();
+        default:
+            displayMove();
     }
 }
 
@@ -100,7 +122,7 @@ $('.deck').on('click', '.card:not(.show)', function () {
             }, 1000); // standard format for ease of reading?
         }
         // Increment the move count and display it on the page (create separate function for this to call here)
-        moveCounter();
+        scoreUpdater();
     } else {
         console.log (`There is currently only ${openCards.length} unmatched card open.`);
     }

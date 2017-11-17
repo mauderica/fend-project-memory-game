@@ -4,8 +4,6 @@
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
-* Incrementing of move counter & adding it to the page. -- done
-    * Star rating -- in progress
 * Shuffle functionality.
 * Winning condition & what happens when it is achieved. -- in progress
 * Review project rubric for additional items.
@@ -15,6 +13,7 @@
     * Hover effect (CSS) over cards.
     * Special effect for matched cards.
     * Special effect for un-matched cards.
+    * Change style for removed star & add an effect for the removal.
 * Add necessary comments to describe and document code.
 
 
@@ -29,4 +28,6 @@
 * Matching logic & what happens in each case (incorrect vs. correct match). -- done
     * Locking the matched cards so that they can no longer be clicked nor trigger the click event listener. -- done
     * Preventing the event listener from firing on an already opened card. -- done
+* Incrementing of move counter & adding it to the page. -- done
+    * Star rating -- done
 
