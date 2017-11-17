@@ -4,7 +4,7 @@
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
-* Shuffle functionality.
+* Shuffle functionality -- in progress
 * Winning condition & what happens when it is achieved. -- in progress
 * Review project rubric for additional items.
 * Review previous project list & project review for additional items.
