@@ -84,28 +84,33 @@ function winChecker() {
 }
 
 
-// FUNCTION to increment the move count and display it to the page:
+// FUNCTION to display the updated moveCount & star rating to the page:
 let moveCount = 0;
 
 function scoreUpdater() {
-    // FUNCTION to remove stars:
-    function starRemover() {
-        $('.fa-star').last().toggleClass('fa-star fa-star-o');
-    }
     // FUNCTION to display the move count to the page:
     function displayMove() {
         $('.moves').text(`${moveCount}`);
     }
-    /*
-    Display the updated count on the page score panel
-    & change the star rating depending on the move count:
-    */
+    // FUNCTION to remove stars:
+    function starRemover() {
+        $('.fa-star').last().toggleClass('fa-star fa-star-o');
+    }
+    // FUNCTION to add stars:
+    function starAdder() {
+        $('.stars >> i').attr('class', 'fa fa-star');
+    }
+    // Display the updated count & star rating in the score panel:
     switch (moveCount) {
+        case 0: // This case is used when the restart button is clicked
+            displayMove();
+            $('.moves').siblings('span').text(' Moves');
+            starAdder();
+            break;
         case 1:
             displayMove();
             $('.moves').siblings('span').text(' Move');
             break;
-        case 0:
         case 2:
             displayMove();
             $('.moves').siblings('span').text(' Moves');
