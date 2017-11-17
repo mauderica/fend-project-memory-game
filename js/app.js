@@ -1,20 +1,29 @@
 $(function() {
-/*
- * Create a list that holds all of your cards
- */
+
+// List (array) that holds all of the cards:
+let cardDeck = [
+    '<li class="card"><i class="fa fa-diamond"></i></li>',
+    '<li class="card"><i class="fa fa-paper-plane-o"></i></li>',
+    '<li class="card"><i class="fa fa-anchor"></i></li>',
+    '<li class="card"><i class="fa fa-bolt"></i></li>',
+    '<li class="card"><i class="fa fa-cube"></i></li>',
+    '<li class="card"><i class="fa fa-leaf"></i></li>',
+    '<li class="card"><i class="fa fa-bicycle"></i></li>',
+    '<li class="card"><i class="fa fa-bomb"></i></li>',
+    '<li class="card"><i class="fa fa-diamond"></i></li>',
+    '<li class="card"><i class="fa fa-paper-plane-o"></i></li>',
+    '<li class="card"><i class="fa fa-anchor"></i></li>',
+    '<li class="card"><i class="fa fa-bolt"></i></li>',
+    '<li class="card"><i class="fa fa-cube"></i></li>',
+    '<li class="card"><i class="fa fa-leaf"></i></li>',
+    '<li class="card"><i class="fa fa-bicycle"></i></li>',
+    '<li class="card"><i class="fa fa-bomb"></i></li>'
+];
 
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
+// FUNCTION to shuffle the list of cards (from http://stackoverflow.com/a/2450976)
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -22,14 +31,34 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
+
+
+// FUNCTION that sets the card deck (initially & when the user selects 'restart'):
+function deckSetter() {
+    $('.deck').empty();
+    const shuffledDeck = shuffle(cardDeck);
+    $('.deck').append(...shuffledDeck);
+}
+
+
+// FUNCTION CALL to set the initial card deck (since the index.html only contains blank cards initially):
+deckSetter();
+
+
+// EVENT LISTENER for the 'restart' being clicked:
+$('.restart').click(function() {
+    console.log('The "restart" button has been clicked.');
+    deckSetter();
+});
+
 
 // FUNCTION to display a card's symbol:
 function cardDisplayer(card) {
     $(card).addClass('open show');
 }
+
 
 // FUNCTION to add a card to an array containing un-matched open cards:
 const openCards = []; // can/should this be placed inside the openCardLister function? diagram it out...
@@ -38,6 +67,7 @@ function openCardLister(card) {
     openCards.push(card);
     console.log(`This is the openCards array now: ${openCards}`);
 }
+
 
 // FUNCTION to check for the winning condition:
 function winChecker() {
@@ -50,6 +80,7 @@ function winChecker() {
         console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
     }
 }
+
 
 // FUNCTION to increment the move count and display it to the page:
 let moveCount = 0;
@@ -86,6 +117,7 @@ function scoreUpdater() {
             displayMove();
     }
 }
+
 
 // EVENT LISTENER for a card being clicked (only to be fired if the card is unmatched and has not already been opened):
 $('.deck').on('click', '.card:not(.show)', function () {
