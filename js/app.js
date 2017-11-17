@@ -37,8 +37,8 @@ function shuffle(array) {
 
 // FUNCTION that sets the card deck (initially & when the user selects 'restart'):
 function deckSetter() {
-    $('.deck').empty();
     const shuffledDeck = shuffle(cardDeck);
+    $('.deck').empty();
     $('.deck').append(...shuffledDeck);
 }
 
@@ -51,6 +51,8 @@ deckSetter();
 $('.restart').click(function() {
     console.log('The "restart" button has been clicked.');
     deckSetter();
+    moveCount = 0;
+    scoreUpdater();
 });
 
 
@@ -86,8 +88,6 @@ function winChecker() {
 let moveCount = 0;
 
 function scoreUpdater() {
-    // Increment the move count:
-    moveCount++;
     // FUNCTION to remove stars:
     function starRemover() {
         $('.fa-star').last().toggleClass('fa-star fa-star-o');
@@ -105,6 +105,7 @@ function scoreUpdater() {
             displayMove();
             $('.moves').siblings('span').text(' Move');
             break;
+        case 0:
         case 2:
             displayMove();
             $('.moves').siblings('span').text(' Moves');
@@ -154,7 +155,8 @@ $('.deck').on('click', '.card:not(.show)', function () {
                 $(card2).toggleClass('open show noMatch');
             }, 1000); // standard format for ease of reading?
         }
-        // Increment the move count and display it on the page (create separate function for this to call here)
+        // Increment the move count and display it on the page:
+        moveCount++;
         scoreUpdater();
     } else {
         console.log (`There is currently only ${openCards.length} unmatched card open.`);
