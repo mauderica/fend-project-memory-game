@@ -47,6 +47,20 @@ function deckSetter() {
 deckSetter();
 
 
+// FUNCTION count-up-timer (from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript)
+// TODO: trigger the timer to start when the user clicks the very first card
+/*
+var sec = 0;
+function pad(val) { 
+    return val > 9 ? val : "0" + val;
+}
+const timer = setInterval(function() {
+    $("#seconds").html(pad(++sec%60));
+    $("#minutes").html(pad(parseInt(sec/60,10)));
+}, 1000);
+*/
+
+
 // EVENT LISTENER for the 'restart' being clicked:
 $('.restart').click(function() {
     console.log('The "restart" button has been clicked.');
@@ -78,6 +92,10 @@ function winChecker() {
     if (winCheck === 0) {
         // display a message with the final score (put this functionality in another function that you call from this one)
         console.log('YOU WIN, YAAAY!');
+        // Stop the timer and get the minutes & seconds values at win-time:
+        // clearInterval(timer);
+        let winTime = $('.timer').text();
+        console.log(`Time to win was ${winTime}.`);
     } else {
         console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
     }
