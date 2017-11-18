@@ -54,7 +54,7 @@ var sec = 0;
 function pad(val) { 
     return val > 9 ? val : "0" + val;
 }
-const timer = setInterval(function() {
+const startTimer = setInterval(function() {
     $("#seconds").html(pad(++sec%60));
     $("#minutes").html(pad(parseInt(sec/60,10)));
 }, 1000);
@@ -81,7 +81,7 @@ const openCards = []; // can/should this be placed inside the openCardLister fun
 
 function openCardLister(card) {
     openCards.push(card);
-    console.log(`This is the openCards array now: ${openCards}`);
+    // console.log(`This is the openCards array now: ${openCards}`);
 }
 
 
@@ -92,8 +92,11 @@ function winChecker() {
     if (winCheck === 0) {
         // display a message with the final score (put this functionality in another function that you call from this one)
         console.log('YOU WIN, YAAAY!');
+        // Set the game state to ended:
+        gameActive = false;
         // Stop the timer and get the minutes & seconds values at win-time:
-        // clearInterval(timer);
+        // clearInterval(startTimer);
+        console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
         let winTime = $('.timer').text();
         console.log(`Time to win was ${winTime}.`);
     } else {
@@ -143,9 +146,18 @@ function scoreUpdater() {
 }
 
 
+// Capture the game state in a variable and initialize it:
+let gameActive = false;
+
 // EVENT LISTENER for a card being clicked (only to be fired if the card is unmatched and has not already been opened):
 $('.deck').on('click', '.card:not(.show)', function () {
-    console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
+    // console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
+    // Capture the game state as 'started' by setting the variable & start the timer by...
+    if(!gameActive) {
+        gameActive = true;
+        console.log(`The game has begun! (${gameActive}). The timer will start now.`);
+        // startTimer();
+    }
     cardDisplayer(this);
     openCardLister(this);
     // If the list of un-matched open cards already has another card, check to see if the two cards match:
