@@ -47,18 +47,28 @@ function deckSetter() {
 deckSetter();
 
 
-// FUNCTION count-up-timer (from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript)
-// TODO: trigger the timer to start when the user clicks the very first card
-/*
-var sec = 0;
-function pad(val) { 
-    return val > 9 ? val : "0" + val;
+// FUNCTION that starts a count-up-timer:
+let timerId;
+
+function startTimer() {
+    // The below code for a count-up-timer is from
+    // https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+    var sec = 0;
+    function pad(val) { 
+        return val > 9 ? val : "0" + val;
+    }
+    // Store the setInterval function call's ID in a variable for later use in stopping the timer
+    timerId = setInterval(function() {
+        $("#seconds").html(pad(++sec%60));
+        $("#minutes").html(pad(parseInt(sec/60,10)));
+    }, 1000);
 }
-const startTimer = setInterval(function() {
-    $("#seconds").html(pad(++sec%60));
-    $("#minutes").html(pad(parseInt(sec/60,10)));
-}, 1000);
-*/
+
+
+// FUNCTION that stops the count-up-timer:
+function stopTimer() {
+    clearInterval(timerId);
+}
 
 
 // EVENT LISTENER for the 'restart' being clicked:
@@ -90,15 +100,15 @@ function winChecker() {
     // For a win, all <li> elements with class "card" need to also have the class "match"
     const winCheck = $('li.card:not(.match)').length;
     if (winCheck === 0) {
-        // display a message with the final score (put this functionality in another function that you call from this one)
-        console.log('YOU WIN, YAAAY!');
-        // Set the game state to ended:
-        gameActive = false;
         // Stop the timer and get the minutes & seconds values at win-time:
-        // clearInterval(startTimer);
-        console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
+        stopTimer();
         let winTime = $('.timer').text();
         console.log(`Time to win was ${winTime}.`);
+        // TODO: display a message with the final score (put this functionality in another function that you call from this one)
+        console.log('YOU WIN, YAAAY!');
+        // Set the game state to inactive/ended:
+        gameActive = false;
+        console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
     } else {
         console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
     }
@@ -154,9 +164,10 @@ $('.deck').on('click', '.card:not(.show)', function () {
     // console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
     // Capture the game state as 'started' by setting the variable & start the timer by...
     if(!gameActive) {
+        // Trigger the timer to start when the user clicks the very first card:
+        startTimer();
         gameActive = true;
-        console.log(`The game has begun! (${gameActive}). The timer will start now.`);
-        // startTimer();
+        console.log(`The game has begun! The game is active: ${gameActive}. The timer will start now.`);
     }
     cardDisplayer(this);
     openCardLister(this);
