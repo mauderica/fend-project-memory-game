@@ -74,9 +74,16 @@ function stopTimer() {
 // EVENT LISTENER for the 'restart' being clicked:
 $('.restart').click(function() {
     console.log('The "restart" button has been clicked.');
+    // Stop the timer and reset it to zero:
+    stopTimer();
+    $('#minutes, #seconds').text('00');
+    // Reset the card deck:
     deckSetter();
+    // Reset the score panel:
     moveCount = 0;
     scoreUpdater();
+    // Reset the game state:
+    gameActive = false;
 });
 
 

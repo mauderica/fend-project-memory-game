@@ -4,7 +4,6 @@
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
-* Restart button: resets the game board (done), the timer, the star rating (done), and the move counter (done) -- in progress
 * Winning condition & what happens when it is achieved. -- in progress
 * Review project rubric for additional items.
 * Review previous project list & project review for additional items.
@@ -33,4 +32,5 @@
     * Star rating -- done
 * Shuffle functionality -- done
 * Timer: When the player starts a game, a displayed timer should also start. Timer stops once game is won. -- done
+* Restart button: resets the game board (done), the timer (done), the game state (done), the star rating (done), and the move counter (done) -- done
 
