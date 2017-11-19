@@ -4,7 +4,6 @@
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
-* Shuffle functionality -- in progress
 * Winning condition & what happens when it is achieved. -- in progress
 * Review project rubric for additional items.
 * Review previous project list & project review for additional items.
@@ -14,6 +13,7 @@
     * Special effect for matched cards.
     * Special effect for un-matched cards.
     * Change style for removed star & add an effect for the removal.
+    * Monospace font for the timer (so that it doesn't jump around).
 * Add necessary comments to describe and document code.
 
 
@@ -30,4 +30,7 @@
     * Preventing the event listener from firing on an already opened card. -- done
 * Incrementing of move counter & adding it to the page. -- done
     * Star rating -- done
+* Shuffle functionality -- done
+* Timer: When the player starts a game, a displayed timer should also start. Timer stops once game is won. -- done
+* Restart button: resets the game board (done), the timer (done), the game state (done), the star rating (done), and the move counter (done) -- done
 

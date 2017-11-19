@@ -37,8 +37,8 @@ function shuffle(array) {
 
 // FUNCTION that sets the card deck (initially & when the user selects 'restart'):
 function deckSetter() {
-    $('.deck').empty();
     const shuffledDeck = shuffle(cardDeck);
+    $('.deck').empty();
     $('.deck').append(...shuffledDeck);
 }
 
@@ -47,10 +47,43 @@ function deckSetter() {
 deckSetter();
 
 
+// FUNCTION that starts a count-up-timer:
+let timerId;
+
+function startTimer() {
+    // The below code for a count-up-timer is from
+    // https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+    var sec = 0;
+    function pad(val) { 
+        return val > 9 ? val : "0" + val;
+    }
+    // Store the setInterval function call's ID in a variable for later use in stopping the timer
+    timerId = setInterval(function() {
+        $("#seconds").html(pad(++sec%60));
+        $("#minutes").html(pad(parseInt(sec/60,10)));
+    }, 1000);
+}
+
+
+// FUNCTION that stops the count-up-timer:
+function stopTimer() {
+    clearInterval(timerId);
+}
+
+
 // EVENT LISTENER for the 'restart' being clicked:
 $('.restart').click(function() {
     console.log('The "restart" button has been clicked.');
+    // Stop the timer and reset it to zero:
+    stopTimer();
+    $('#minutes, #seconds').text('00');
+    // Reset the card deck:
     deckSetter();
+    // Reset the score panel:
+    moveCount = 0;
+    scoreUpdater();
+    // Reset the game state:
+    gameActive = false;
 });
 
 
@@ -65,7 +98,7 @@ const openCards = []; // can/should this be placed inside the openCardLister fun
 
 function openCardLister(card) {
     openCards.push(card);
-    console.log(`This is the openCards array now: ${openCards}`);
+    // console.log(`This is the openCards array now: ${openCards}`);
 }
 
 
@@ -74,33 +107,44 @@ function winChecker() {
     // For a win, all <li> elements with class "card" need to also have the class "match"
     const winCheck = $('li.card:not(.match)').length;
     if (winCheck === 0) {
-        // display a message with the final score (put this functionality in another function that you call from this one)
+        // Stop the timer and get the minutes & seconds values at win-time:
+        stopTimer();
+        let winTime = $('.timer').text();
+        console.log(`Time to win was ${winTime}.`);
+        // TODO: display a message with the final score (put this functionality in another function that you call from this one)
         console.log('YOU WIN, YAAAY!');
+        // Set the game state to inactive/ended:
+        gameActive = false;
+        console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
     } else {
         console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
     }
 }
 
 
-// FUNCTION to increment the move count and display it to the page:
+// FUNCTION to display the updated moveCount & star rating to the page:
 let moveCount = 0;
 
 function scoreUpdater() {
-    // Increment the move count:
-    moveCount++;
-    // FUNCTION to remove stars:
-    function starRemover() {
-        $('.fa-star').last().toggleClass('fa-star fa-star-o');
-    }
     // FUNCTION to display the move count to the page:
     function displayMove() {
         $('.moves').text(`${moveCount}`);
     }
-    /*
-    Display the updated count on the page score panel
-    & change the star rating depending on the move count:
-    */
+    // FUNCTION to remove stars:
+    function starRemover() {
+        $('.fa-star').last().toggleClass('fa-star fa-star-o');
+    }
+    // FUNCTION to add stars:
+    function starAdder() {
+        $('.stars >> i').attr('class', 'fa fa-star');
+    }
+    // Display the updated count & star rating in the score panel:
     switch (moveCount) {
+        case 0: // This case is used when the restart button is clicked
+            displayMove();
+            $('.moves').siblings('span').text(' Moves');
+            starAdder();
+            break;
         case 1:
             displayMove();
             $('.moves').siblings('span').text(' Move');
@@ -119,9 +163,19 @@ function scoreUpdater() {
 }
 
 
+// Capture the game state in a variable and initialize it:
+let gameActive = false;
+
 // EVENT LISTENER for a card being clicked (only to be fired if the card is unmatched and has not already been opened):
 $('.deck').on('click', '.card:not(.show)', function () {
-    console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
+    // console.log(`A card with this child element has been clicked: ${$(this).html()}.`);
+    // Capture the game state as 'started' by setting the variable & start the timer by...
+    if(!gameActive) {
+        // Trigger the timer to start when the user clicks the very first card:
+        startTimer();
+        gameActive = true;
+        console.log(`The game has begun! The game is active: ${gameActive}. The timer will start now.`);
+    }
     cardDisplayer(this);
     openCardLister(this);
     // If the list of un-matched open cards already has another card, check to see if the two cards match:
@@ -154,7 +208,8 @@ $('.deck').on('click', '.card:not(.show)', function () {
                 $(card2).toggleClass('open show noMatch');
             }, 1000); // standard format for ease of reading?
         }
-        // Increment the move count and display it on the page (create separate function for this to call here)
+        // Increment the move count and display it on the page:
+        moveCount++;
         scoreUpdater();
     } else {
         console.log (`There is currently only ${openCards.length} unmatched card open.`);
