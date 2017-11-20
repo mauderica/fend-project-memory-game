@@ -106,6 +106,18 @@ function openCardLister(card) {
 }
 
 
+// FUNCTION to display the winning message and get user input:
+function winMessage(time, score) {
+    const playAgain = confirm(`CONGRATULATIONS! YOU WON! Your win time was: ${time}. Your star rating was: ${score}. Would you like to play again?`);
+    if (playAgain) {
+        gameReset();
+    } else {
+        // Set the game state to inactive/ended:
+        gameActive = false;
+        console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
+    }
+}
+
 // FUNCTION to check for the winning condition:
 function winChecker() {
     // For a win, all <li> elements with class "card" need to also have the class "match"
@@ -120,14 +132,9 @@ function winChecker() {
         const starRating = $('.stars >> i.fa-star').length;
         // TODO: display a message with the final score (put this functionality in another function that you call from this one)
         console.log('YOU WIN, YAAAY!');
-        const playAgain = confirm(`CONGRATULATIONS! YOU WON! Your win time was: ${winTime}. Your star rating was: ${starRating}. Would you like to play again?`);
-        if (playAgain) {
-            gameReset();
-        } else {
-            // Set the game state to inactive/ended:
-            gameActive = false;
-            console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
-        }
+        window.setTimeout(function(){
+            winMessage(winTime, starRating);
+        }, 1000);
     } else {
         console.log(`There are still ${unmatchedCards} unmatched cards left. Keep up the good work!`);
     }
