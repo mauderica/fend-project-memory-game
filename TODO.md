@@ -5,6 +5,9 @@
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
 * Winning condition & what happens when it is achieved. -- in progress
+    * Congratulations Popup: -- in progress
+        * When a user wins the game, a modal appears to congratulate the player and ask if they want to play again. (delay & ensure last 2 cards are flipped)
+        * It should also tell the user how much time it took to win the game, and what the star rating was. (separate the minutes from seconds)
 * Review project rubric for additional items.
 * Review previous project list & project review for additional items.
 * Custom styling (save for last).
