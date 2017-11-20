@@ -107,8 +107,10 @@ function openCardLister(card) {
 
 
 // FUNCTION to display the winning message and get user input:
-function winMessage(time, score) {
-    const playAgain = confirm(`CONGRATULATIONS! YOU WON! Your win time was: ${time}. Your star rating was: ${score}. Would you like to play again?`);
+function winMessage(minutes, seconds, score) {
+    const playAgain = confirm(`CONGRATULATIONS! YOU WON!
+    Win time = ${minutes}:${seconds}    Star rating = ${score}
+    Would you like to play again?`);
     if (playAgain) {
         gameReset();
     } else {
@@ -126,14 +128,15 @@ function winChecker() {
         // Stop the timer:
         stopTimer();
         // Get the minutes & seconds values at win-time:
-        const winTime = $('.timer').text();
-        console.log(`Time to win was ${winTime}.`);
+        const winTimeMin = $('#minutes').text();
+        const winTimeSec = $('#seconds').text();
+        console.log(`Time to win was ${winTimeMin} minutes, ${winTimeSec} seconds.`);
         // Get the star rating at win-time:
         const starRating = $('.stars >> i.fa-star').length;
         // TODO: display a message with the final score (put this functionality in another function that you call from this one)
         console.log('YOU WIN, YAAAY!');
-        window.setTimeout(function(){
-            winMessage(winTime, starRating);
+        setTimeout(function(){
+            winMessage(winTimeMin, winTimeSec, starRating);
         }, 1000);
     } else {
         console.log(`There are still ${unmatchedCards} unmatched cards left. Keep up the good work!`);
@@ -172,9 +175,9 @@ function scoreUpdater() {
             displayMove();
             $('.moves').siblings('span').text(' Moves');
             break;
-        case 10:
         case 15:
         case 20:
+        case 25:
             starRemover();
         default:
             displayMove();
@@ -225,7 +228,7 @@ $('.deck').on('click', '.card:not(.show)', function () {
             console.log('The cards do not match, boohoo');
             $(card1).addClass('noMatch');
             $(card2).addClass('noMatch');
-            window.setTimeout(function(){
+            setTimeout(function(){
                 $(card1).toggleClass('open show noMatch');
                 $(card2).toggleClass('open show noMatch');
             }, 1000); // standard format for ease of reading?
