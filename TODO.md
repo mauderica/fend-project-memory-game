@@ -1,11 +1,10 @@
 # Memory Game Project
 
+## To-Do Later
+
 ## To-Do List
 
-* Pulling variables out of function scopes where appropriate, to avoid re-querying the DOM each time the function is run.
-* Verify correct choice of variable declaration keyword use (let vs const).
 * Review project rubric for additional items.
-* Review previous project list & project review for additional items.
 * Modal instead of confirm popup.
 * Custom styling (save for last).
     * Achieve a nice, slower card-flipping effect.
@@ -16,7 +15,6 @@
     * Monospace font for the timer (so that it doesn't jump around).
 * Add necessary comments to describe and document code.
 * Break-up long comments into multi-line comments.
-* If chose to hardcode an initial deck of cards, explain why. If not, add an initializer function in JS.
 
 
 
@@ -41,4 +39,8 @@
         * It should also tell the user how much time it took to win the game, and what the star rating was. (separate the minutes from seconds) -- done
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring -- done
+* Pulling variables out of function scopes where appropriate, to avoid re-querying the DOM each time the function is run. -- done
+* Verify correct choice of variable declaration keyword use (let vs const). -- done
+* Review previous project list & project review for additional items. -- done
+* If chose to hardcode an initial deck of cards, explain why. If not, add an initializer function in JS. -- done
 

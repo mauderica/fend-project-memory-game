@@ -36,10 +36,12 @@ function shuffle(array) {
 
 
 // Set the card deck
+const $deck = $('.deck');
+
 function deckSetter() {
     const shuffledDeck = shuffle(cardDeck);
-    $('.deck').empty();
-    $('.deck').append(...shuffledDeck);
+    $deck.empty();
+    $deck.append(...shuffledDeck);
 }
 
 
@@ -52,6 +54,8 @@ and initialize the deck of cards with symbols. */
 
 // Start the count-up-timer
 let timerId;
+const $seconds = $('#seconds');
+const $minutes = $('#minutes');
 
 function startTimer() {
     // The below code for a count-up-timer is from:
@@ -63,26 +67,35 @@ function startTimer() {
     // Store the setInterval function call's ID in a variable
     // for later use in stopping the timer
     timerId = setInterval(function() {
-        $("#seconds").html(pad(++sec%60));
-        $("#minutes").html(pad(parseInt(sec/60,10)));
+        $seconds.html(pad(++sec%60));
+        $minutes.html(pad(parseInt(sec/60,10)));
     }, 1000);
 }
 
 
-// Stop the count-up-timer
+// Stop the timer
 function stopTimer() {
     clearInterval(timerId);
+}
+
+
+// Reset the timer to zero
+function resetTimer(...times) {
+    for (const $time of times) {
+        $time.text('00');
+    }
 }
 
 
 // Reset the game
 function gameReset() {
     // Reset the timer to zero:
-    $('#minutes, #seconds').text('00');
+    resetTimer($seconds, $minutes);
     // Reset the card deck:
     deckSetter();
     // Reset the score panel:
-    scoreUpdater(0);
+    moveCount = 0
+    scoreUpdater(moveCount);
     // Reset the game state:
     gameActive = false;
 }
@@ -110,17 +123,14 @@ function winMessage(minutes, seconds, score) {
 
 
 // Check for the winning condition
-const $timerMin = $('#minutes');
-const $timerSec = $('#seconds');
-
 function winChecker() {
     // Determine if there are any cards left without the class "match"
     const unmatchedCards = $('li.card:not(.match)').length;
     if (unmatchedCards === 0) {
         stopTimer();
         // Get the minutes & seconds values at win-time:
-        const winTimeMin = $timerMin.text();
-        const winTimeSec = $timerSec.text();
+        const winTimeMin = $minutes.text();
+        const winTimeSec = $seconds.text();
         // Get the star rating at win-time:
         const starRating = $('.stars >> i.fa-star').length;
         // Display the congratulations popup with final score
@@ -135,11 +145,13 @@ function winChecker() {
 
 // Display the updated move count & star rating to the page
 let moveCount = 0;
+const $moveNum = $('.moves');
+const $moveWord = $moveNum.siblings('span');
 
 function scoreUpdater(_moveCount) {
     // Display the move count to the page
     function displayMove() {
-        $('.moves').text(`${_moveCount}`);
+        $moveNum.text(_moveCount);
     }
     // Remove a star from the page
     function starRemover() {
@@ -154,18 +166,18 @@ function scoreUpdater(_moveCount) {
         case 0: // This case is used when the restart button is clicked
             displayMove();
             // Set the word 'move' to plural
-            $('.moves').siblings('span').text(' Moves');
+            $moveWord.text(' Moves');
             starAdder();
             break;
         case 1:
             displayMove();
             // Set the word 'move' to singular
-            $('.moves').siblings('span').text(' Move');
+            $moveWord.text(' Move');
             break;
         case 2:
             displayMove();
             // Set the word 'move' to plural
-            $('.moves').siblings('span').text(' Moves');
+            $moveWord.text(' Moves');
             break;
         // At 15, 20, and 25 moves - remove one star
         case 15:
@@ -190,7 +202,7 @@ function noMatch(...cards) {
 
 
 // Lock the matched cards in open position
-function cardMatch(...cards) {
+function cardMatcher(...cards) {
     for (const card of cards) {
         $(card).toggleClass('open match');
     }
@@ -207,12 +219,11 @@ function emptyArray(array) {
 function matchChecker(_card1, _card2) {
     // Get the symbol of card1
     const card1Symbol = $(_card1).children().attr('class');
-    console.log(`Card1's symbol is: ${card1Symbol}`);
     // Check whether card2 has the same symbol as card1
     const isMatch = $(_card2).children().hasClass(card1Symbol);
     if(isMatch) {
         // Lock the matched cards
-        cardMatch(_card1, _card2);
+        cardMatcher(_card1, _card2);
         // Empty the array containing un-matched open cards
         emptyArray(openCards);
         // Check for winning condition
@@ -246,7 +257,7 @@ let gameActive = false;
 
 // Upon a card being clicked, display it and check for a match
 // Note: only to be fired if the card is unmatched and unopened
-$('.deck').on('click', '.card:not(.show)', function () {
+$deck.on('click', '.card:not(.show)', function () {
     if(!gameActive) {
         // Trigger the timer to start when the user clicks the very first card
         startTimer();
@@ -263,8 +274,6 @@ $('.deck').on('click', '.card:not(.show)', function () {
         const card1 = openCards[0];
         const card2 = openCards[1];
         matchChecker(card1, card2);
-    } else {
-        console.log (`There is currently only ${openCards.length} unmatched card open.`);
     }
 });
 
