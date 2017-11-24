@@ -70,12 +70,9 @@ function stopTimer() {
     clearInterval(timerId);
 }
 
-
-// EVENT LISTENER for the 'restart' being clicked:
-$('.restart').click(function() {
-    console.log('The "restart" button has been clicked.');
-    // Stop the timer and reset it to zero:
-    stopTimer();
+// FUNCTION to reset the game:
+function gameReset() {
+    // Reset the timer to zero:
     $('#minutes, #seconds').text('00');
     // Reset the card deck:
     deckSetter();
@@ -84,6 +81,13 @@ $('.restart').click(function() {
     scoreUpdater();
     // Reset the game state:
     gameActive = false;
+}
+
+// EVENT LISTENER for the 'restart' being clicked:
+$('.restart').click(function() {
+    console.log('The "restart" button has been clicked.');
+    stopTimer();
+    gameReset();
 });
 
 
@@ -102,22 +106,40 @@ function openCardLister(card) {
 }
 
 
-// FUNCTION to check for the winning condition:
-function winChecker() {
-    // For a win, all <li> elements with class "card" need to also have the class "match"
-    const winCheck = $('li.card:not(.match)').length;
-    if (winCheck === 0) {
-        // Stop the timer and get the minutes & seconds values at win-time:
-        stopTimer();
-        let winTime = $('.timer').text();
-        console.log(`Time to win was ${winTime}.`);
-        // TODO: display a message with the final score (put this functionality in another function that you call from this one)
-        console.log('YOU WIN, YAAAY!');
+// FUNCTION to display the winning message and get user input:
+function winMessage(minutes, seconds, score) {
+    const playAgain = confirm(`CONGRATULATIONS! YOU WON!
+    Win time = ${minutes}:${seconds}    Star rating = ${score}
+    Would you like to play again?`);
+    if (playAgain) {
+        gameReset();
+    } else {
         // Set the game state to inactive/ended:
         gameActive = false;
         console.log(`The game has ended. The gameActive variable is set to: ${gameActive}.`);
+    }
+}
+
+// FUNCTION to check for the winning condition:
+function winChecker() {
+    // For a win, all <li> elements with class "card" need to also have the class "match"
+    const unmatchedCards = $('li.card:not(.match)').length;
+    if (unmatchedCards === 0) {
+        // Stop the timer:
+        stopTimer();
+        // Get the minutes & seconds values at win-time:
+        const winTimeMin = $('#minutes').text();
+        const winTimeSec = $('#seconds').text();
+        console.log(`Time to win was ${winTimeMin} minutes, ${winTimeSec} seconds.`);
+        // Get the star rating at win-time:
+        const starRating = $('.stars >> i.fa-star').length;
+        // TODO: display a message with the final score (put this functionality in another function that you call from this one)
+        console.log('YOU WIN, YAAAY!');
+        setTimeout(function(){
+            winMessage(winTimeMin, winTimeSec, starRating);
+        }, 1000);
     } else {
-        console.log(`There are still ${winCheck} unmatched cards left. Keep up the good work!`);
+        console.log(`There are still ${unmatchedCards} unmatched cards left. Keep up the good work!`);
     }
 }
 
@@ -153,9 +175,9 @@ function scoreUpdater() {
             displayMove();
             $('.moves').siblings('span').text(' Moves');
             break;
-        case 10:
         case 15:
         case 20:
+        case 25:
             starRemover();
         default:
             displayMove();
@@ -178,17 +200,21 @@ $('.deck').on('click', '.card:not(.show)', function () {
     }
     cardDisplayer(this);
     openCardLister(this);
-    // If the list of un-matched open cards already has another card, check to see if the two cards match:
+    // If the list of un-matched open cards has two cards, check to see if they match:
     if (openCards.length > 1) {
+        // Increment the move count and update the score-panel display:
+        moveCount++;
+        scoreUpdater();
+        // Get the symbol of card1 (which is stored in its child's class):
         const card1 = openCards[0];
         const card2 = openCards[1];
-        // Get the symbol of card1 (which is stored in its child's class):
         const card1Symbol = $(card1).children().attr('class');
         console.log(`Card1's symbol is: ${card1Symbol}`);
         // Check whether card2 child has the same class as card1 child:
         const isMatch = $(card2).children().hasClass(card1Symbol);
         if(isMatch) {
             // Lock the cards in open position and change their color/style (create separate function for this to call here)
+            // Empty the openCards array
             // (Before factoring the below out into a function, card1 and card2 will need to be placed in an outer scope)
             console.log('The cards match, yay!');
             $(card1).toggleClass('open match');
@@ -200,17 +226,14 @@ $('.deck').on('click', '.card:not(.show)', function () {
             // remove the cards from the openCards list and hide the card's symbol (create separate function for this to call here)
             // (Before factoring the below out into a function, card1 and card2 will need to be placed in an outer scope)
             console.log('The cards do not match, boohoo');
-            openCards.splice(0);
             $(card1).addClass('noMatch');
             $(card2).addClass('noMatch');
-            window.setTimeout(function(){
+            setTimeout(function(){
                 $(card1).toggleClass('open show noMatch');
                 $(card2).toggleClass('open show noMatch');
             }, 1000); // standard format for ease of reading?
+            openCards.splice(0);
         }
-        // Increment the move count and display it on the page:
-        moveCount++;
-        scoreUpdater();
     } else {
         console.log (`There is currently only ${openCards.length} unmatched card open.`);
     }

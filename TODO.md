@@ -4,9 +4,9 @@
 
 * Development strategy: plan project and break it down into smaller pieces. -- ongoing
 * Refactoring
-* Winning condition & what happens when it is achieved. -- in progress
 * Review project rubric for additional items.
 * Review previous project list & project review for additional items.
+* Modal instead of confirm popup.
 * Custom styling (save for last).
     * Achieve a nice, slower card-flipping effect.
     * Hover effect (CSS) over cards.
@@ -33,4 +33,8 @@
 * Shuffle functionality -- done
 * Timer: When the player starts a game, a displayed timer should also start. Timer stops once game is won. -- done
 * Restart button: resets the game board (done), the timer (done), the game state (done), the star rating (done), and the move counter (done) -- done
+* Winning condition & what happens when it is achieved. -- in progress
+    * Congratulations Popup: -- in progress
+        * When a user wins the game, a modal appears to congratulate the player and ask if they want to play again. (Delay popup & ensure last 2 cards are flipped). -- done
+        * It should also tell the user how much time it took to win the game, and what the star rating was. (separate the minutes from seconds) -- done
 
