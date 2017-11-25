@@ -4,7 +4,7 @@
 
 * [Instructions For Set-Up](#instructions-for-set-up)
 * [How The Game Works](#how-the-game-works)
-* [Special Features] (#special-features)
+* [Special Features](#special-features)
 * [Contributing](#contributing)
 
 ## Instructions For Set-Up
