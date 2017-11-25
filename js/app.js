@@ -183,10 +183,9 @@ $(function () {
                 // Set the word 'move' to plural
                 $moveWord.text(' Moves');
                 break;
-            // At 15, 20, and 25 moves - remove one star
+            // At 15 and 20 moves - remove one star
             case 15:
             case 20:
-            case 25:
                 starRemover();
             // falling through
             default:
