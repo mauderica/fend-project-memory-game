@@ -3,6 +3,7 @@
 ## Table of Contents
 
 * [Instructions For Set-Up](#instructions-for-set-up)
+* [Dependencies](#dependencies)
 * [How The Game Works](#how-the-game-works)
 * [Special Features](#special-features)
 * [Contributing](#contributing)
@@ -10,6 +11,12 @@
 ## Instructions For Set-Up
 
 To get started, download all project files, then open `index.html` in Google Chrome, or another browser of your choice.
+
+## Dependencies
+
+* font-awesome
+* Google fonts
+* jQuery
 
 ## How The Game Works
 
