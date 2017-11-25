@@ -1,11 +1,13 @@
 # Memory Game Project
 
 ## To-Do Later
+* Bootstrap JS modal (with nice styling) instead of confirm popup.
+* Use stored game statistics to display a player's record scores, etc.
+
 
 ## To-Do List
 
 * Review project rubric for additional items.
-* Modal instead of confirm popup.
 * Custom styling (save for last).
     * Achieve a nice, slower card-flipping effect.
     * Hover effect (CSS) over cards.
@@ -13,9 +15,6 @@
     * Special effect for un-matched cards.
     * Change style for removed star & add an effect for the removal.
     * Monospace font for the timer (so that it doesn't jump around).
-* Add necessary comments to describe and document code.
-* Break-up long comments into multi-line comments.
-
 
 
 ## Done
@@ -43,4 +42,7 @@
 * Verify correct choice of variable declaration keyword use (let vs const). -- done
 * Review previous project list & project review for additional items. -- done
 * If chose to hardcode an initial deck of cards, explain why. If not, add an initializer function in JS. -- done
+* Add necessary comments to describe and document code. -- done
+* Break-up long comments into multi-line comments. -- done
+* Save game statistics for later use in a scoreboard & keeping track of personal records -- done
 
