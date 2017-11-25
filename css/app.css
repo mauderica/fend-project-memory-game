@@ -85,6 +85,11 @@ h1 {
     background: #f02c2c;
 }
 
+.card:not(.show):hover {
+    box-shadow: 0 0px 20px 0 whitesmoke;
+}
+
+
 /*
  * Styles for the Score Panel
  */

@@ -3,19 +3,18 @@
 ## To-Do Later
 * Bootstrap JS modal (with nice styling) instead of confirm popup.
 * Use stored game statistics to display a player's record scores, etc.
-
-
-## To-Do List
-
-* Review project rubric for additional items.
-* Custom styling (save for last).
+* Make page responsive such that layout, text size, and card size change depending on the user's screen size for optimal UX.
+* Additional custom styling (save for last).
     * Achieve a nice, slower card-flipping effect.
-    * Hover effect (CSS) over cards.
+    * Hover effect (CSS) over cards. -- in progress
     * Special effect for matched cards.
-    * Special effect for un-matched cards.
+    * Special effect for un-matched cards. -- in progress
     * Change style for removed star & add an effect for the removal.
     * Monospace font for the timer (so that it doesn't jump around).
 
+
+## To-Do List
+* ...
 
 ## Done
 
@@ -45,4 +44,5 @@
 * Add necessary comments to describe and document code. -- done
 * Break-up long comments into multi-line comments. -- done
 * Save game statistics for later use in a scoreboard & keeping track of personal records -- done
+* Review project rubric for additional items. -- done
 
