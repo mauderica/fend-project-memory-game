@@ -198,9 +198,9 @@ $(function () {
     function noMatch(...cards) {
         for (const card of cards) {
             $(card).addClass('noMatch');
-            setTimeout(function () {
+            setTimeout(function() {
                 $(card).toggleClass('open show noMatch');
-            }, 1000);
+            }, 1500);
         }
     }
 
@@ -235,7 +235,9 @@ $(function () {
             // Show the cards as "not matching" then hide their symbols
             noMatch(_card1, _card2);
             // Empty the array containing un-matched open cards
-            emptyArray(openCards);
+            setTimeout(function() {
+                emptyArray(openCards);
+            }, 1500);
         }
     }
 
@@ -267,16 +269,23 @@ $(function () {
             // Set the game state to 'active'
             gameActive = true;
         }
-        cardDisplayer(this);
-        openCardLister(this);
-        // If the list of un-matched open cards has two cards...
-        if (openCards.length > 1) {
-            // Increment the move count and update the score-panel display
-            scoreUpdater(++moveCount);
-            // Check if the two open cards match
-            const card1 = openCards[0];
-            const card2 = openCards[1];
-            matchChecker(card1, card2);
+        // Ensure only a single pair of cards can be open for a match-check at once
+        if(openCards.length === 2) {
+            // Prevent card flip
+            return;
+        } else {
+            cardDisplayer(this);
+            openCardLister(this);
+            console.log(`Current cards open: ${openCards.length}.`);
+            // If the list of un-matched open cards now has two cards...
+            if (openCards.length > 1) {
+                // Increment the move count and update the score-panel display
+                scoreUpdater(++moveCount);
+                // Check if the two open cards match
+                const card1 = openCards[0];
+                const card2 = openCards[1];
+                matchChecker(card1, card2);
+            }
         }
     });
 

@@ -4,7 +4,7 @@
 * Bootstrap JS modal (with nice styling) instead of confirm popup.
 * Use stored game statistics to display a player's record scores, etc.
 * Make page responsive such that layout, text size, and card size change depending on the user's screen size for optimal UX.
-* Additional custom styling (save for last).
+* Additional custom styling (save for last) --> Take a look at: https://api.jquery.com/category/effects/
     * Achieve a nice, slower card-flipping effect.
     * Hover effect (CSS) over cards. -- in progress
     * Special effect for matched cards.
@@ -14,7 +14,10 @@
 
 
 ## To-Do List
-* ...
+* Game behavior: ensure only 1 pair of cards can be viewed at once.
+    * Change cursor type to "default" & remove hovering effect on all cards when a pair of cards is being viewed/evaluated. Change it back afterwards (when the array is being cleared?).
+* Modal instead of congratulations pop-up.
+* Responsive design for smaller screens.
 
 ## Done
 
