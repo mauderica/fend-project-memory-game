@@ -2,10 +2,10 @@
 
 ## To-Do Later
 * Use stored game statistics to display a player's record scores, etc.
-* Make page responsive such that layout, text size, and card size change depending on the user's screen size for optimal UX.
+* Make responsive design more elegant; such that layout, text size, and card size change depending on the user's screen size for optimal UX.
 * Additional custom styling (save for last) --> Take a look at: https://api.jquery.com/category/effects/
     * Achieve a nice, slower card-flipping effect.
-    * Hover effect (CSS) over cards. -- in progress
+    * Hover effect (CSS) over cards. -- done
     * Special effect for matched cards.
     * Special effect for un-matched cards. -- in progress
     * Change style for removed star & add an effect for the removal.
@@ -13,7 +13,7 @@
 
 
 ## To-Do List
-* Responsive design for smaller screens.
+* ...
 
 ## Done
 
@@ -48,4 +48,5 @@
     * Change cursor type to "default" & remove hovering effect on all cards when a pair of cards is being viewed/evaluated. Change it back afterwards. -- done
 * Modal instead of congratulations pop-up. -- done
     * include necessary `<script>` in HTML. -- done
+* Responsive design for smaller screens. -- done
 
