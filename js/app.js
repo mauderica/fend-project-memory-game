@@ -98,22 +98,40 @@ $(function () {
     $('.restart').click(function () {
         stopTimer();
         gameReset();
+        // winMessage('test','test','test');
     });
 
 
-    // Display the winning message and get user input for replay
+    const $modalBody = $('.modal-body');
+    const $modalContent = $('.modal-content');
+    const $modalYes = $('#modalYes');
+
+    // Display the winning message
     function winMessage(minutes, seconds, score) {
-        // TODO: Display message with a Bootstrap modal
-        const playAgain = confirm(`CONGRATULATIONS! YOU WON!
-            Win time = ${minutes}:${seconds}    Star rating = ${score}
-            Would you like to play again?`);
-        if (playAgain) {
-            gameReset();
-        } else {
-            // Set the game state to inactive/ended:
-            gameActive = false;
-        }
+        // Add game stats to the modal
+        const winTimeMsg = `<p>Win time = ${minutes}:${seconds}</p>`;
+        const starRatingMsg = `<p>Star rating = ${score}</p>`;
+        const playAgainMsg = '<p>Would you like to play again?</p>';
+        $modalBody.html(winTimeMsg);
+        $modalBody.append(starRatingMsg);
+        $modalBody.append(playAgainMsg);
+        // Display modal
+        $("#myModal").modal({backdrop: "static"});
     }
+
+    // Get user input for replay:
+    // When user selects "yes" in modal
+    $modalYes.click(function() {
+        gameReset();
+        console.log('Modal "yes" was clicked. Game reset.');
+    });
+    // When user selects "no" in modal or closes it
+    $modalContent.on('click', 'button:not(#modalYes)', function () {
+        // Set the game state to inactive/ended:
+        gameActive = false;
+        console.log('Modal "no" or "close" was clicked.');
+    });
+
 
     // TODO: Use stored game statistics to display a player's record scores, etc.
     const gameStatHistory = [];
@@ -133,7 +151,7 @@ $(function () {
             // Display the congratulations popup with final score
             setTimeout(function () {
                 winMessage(winTimeMin, winTimeSec, starRating);
-            }, 800);
+            }, 600);
             // Store game statistics
             const gameStats = {
                 minutes: winTimeMin,
