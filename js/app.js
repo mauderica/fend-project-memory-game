@@ -98,22 +98,40 @@ $(function () {
     $('.restart').click(function () {
         stopTimer();
         gameReset();
+        // winMessage('test','test','test');
     });
 
 
-    // Display the winning message and get user input for replay
+    const $modalBody = $('.modal-body');
+    const $modalContent = $('.modal-content');
+    const $modalYes = $('#modalYes');
+
+    // Display the winning message
     function winMessage(minutes, seconds, score) {
-        // TODO: Display message with a Bootstrap modal
-        const playAgain = confirm(`CONGRATULATIONS! YOU WON!
-            Win time = ${minutes}:${seconds}    Star rating = ${score}
-            Would you like to play again?`);
-        if (playAgain) {
-            gameReset();
-        } else {
-            // Set the game state to inactive/ended:
-            gameActive = false;
-        }
+        // Add game stats to the modal
+        const winTimeMsg = `<p>Win time = ${minutes}:${seconds}</p>`;
+        const starRatingMsg = `<p>Star rating = ${score}</p>`;
+        const playAgainMsg = '<p>Would you like to play again?</p>';
+        $modalBody.html(winTimeMsg);
+        $modalBody.append(starRatingMsg);
+        $modalBody.append(playAgainMsg);
+        // Display modal
+        $("#myModal").modal({backdrop: "static"});
     }
+
+    // Get user input for replay:
+    // When user selects "yes" in modal
+    $modalYes.click(function() {
+        gameReset();
+        console.log('Modal "yes" was clicked. Game reset.');
+    });
+    // When user selects "no" in modal or closes it
+    $modalContent.on('click', 'button:not(#modalYes)', function () {
+        // Set the game state to inactive/ended:
+        gameActive = false;
+        console.log('Modal "no" or "close" was clicked.');
+    });
+
 
     // TODO: Use stored game statistics to display a player's record scores, etc.
     const gameStatHistory = [];
@@ -133,7 +151,7 @@ $(function () {
             // Display the congratulations popup with final score
             setTimeout(function () {
                 winMessage(winTimeMin, winTimeSec, starRating);
-            }, 800);
+            }, 600);
             // Store game statistics
             const gameStats = {
                 minutes: winTimeMin,
@@ -198,10 +216,14 @@ $(function () {
     function noMatch(...cards) {
         for (const card of cards) {
             $(card).addClass('noMatch');
-            setTimeout(function () {
-                $(card).toggleClass('open show noMatch');
-            }, 1000);
         }
+        // remove the noMatch class at the same time as cardAccess is returned
+        setTimeout(function() {
+            for (const card of cards) {
+                $(card).toggleClass('open show noMatch');
+            }
+            cardAccess(true);
+        }, 1200);
     }
 
 
@@ -227,6 +249,8 @@ $(function () {
         if (isMatch) {
             // Lock the matched cards
             cardMatcher(_card1, _card2);
+            // Restore card access
+            cardAccess(true);
             // Empty the array containing un-matched open cards
             emptyArray(openCards);
             // Check for winning condition
@@ -242,8 +266,22 @@ $(function () {
 
     // Display a card's symbol
     function cardDisplayer(card) {
-        $(card).addClass('open show');
+        $(card).addClass('open show noAccess');
     }
+
+
+    function cardAccess(boolean) {
+        // Update the card-viewing state
+        cardsAccessible = boolean;
+        // Change cursor type & hovering effect of all cards
+        // to indicate that are inaccessible
+        $('.card:not(.show)').toggleClass('noAccess');
+        console.log(`Cards accessible now: ${cardsAccessible}`);
+    }
+
+
+    // Store the card-access state in a variable
+    let cardsAccessible = true;
 
 
     const openCards = [];
@@ -267,16 +305,25 @@ $(function () {
             // Set the game state to 'active'
             gameActive = true;
         }
-        cardDisplayer(this);
-        openCardLister(this);
-        // If the list of un-matched open cards has two cards...
-        if (openCards.length > 1) {
-            // Increment the move count and update the score-panel display
-            scoreUpdater(++moveCount);
-            // Check if the two open cards match
-            const card1 = openCards[0];
-            const card2 = openCards[1];
-            matchChecker(card1, card2);
+        // Ensure only a single pair of cards can be open for a match-check at once
+        if(!cardsAccessible) {
+            // Prevent card flip
+            return;
+        } else {
+            cardDisplayer(this);
+            openCardLister(this);
+            console.log(`Current cards open: ${openCards.length}.`);
+            // If the list of un-matched open cards now has two cards...
+            if (openCards.length === 2) {
+                // Block all card access while card pair is being viewed & evaluated
+                cardAccess(false);
+                // Increment the move count and update the score-panel display
+                scoreUpdater(++moveCount);
+                // Check if the two open cards match
+                const card1 = openCards[0];
+                const card2 = openCards[1];
+                matchChecker(card1, card2);
+            }
         }
     });
 
