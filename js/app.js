@@ -198,10 +198,14 @@ $(function () {
     function noMatch(...cards) {
         for (const card of cards) {
             $(card).addClass('noMatch');
-            setTimeout(function() {
-                $(card).toggleClass('open show noMatch');
-            }, 1500);
         }
+        // remove the noMatch class at the same time as cardAccess is returned
+        setTimeout(function() {
+            for (const card of cards) {
+                $(card).toggleClass('open show noMatch');
+            }
+            cardAccess(true);
+        }, 1200);
     }
 
 
@@ -227,6 +231,8 @@ $(function () {
         if (isMatch) {
             // Lock the matched cards
             cardMatcher(_card1, _card2);
+            // Restore card access
+            cardAccess(true);
             // Empty the array containing un-matched open cards
             emptyArray(openCards);
             // Check for winning condition
@@ -235,17 +241,29 @@ $(function () {
             // Show the cards as "not matching" then hide their symbols
             noMatch(_card1, _card2);
             // Empty the array containing un-matched open cards
-            setTimeout(function() {
-                emptyArray(openCards);
-            }, 1500);
+            emptyArray(openCards);
         }
     }
 
 
     // Display a card's symbol
     function cardDisplayer(card) {
-        $(card).addClass('open show');
+        $(card).addClass('open show noAccess');
     }
+
+
+    function cardAccess(boolean) {
+        // Update the card-viewing state
+        cardsAccessible = boolean;
+        // Change cursor type & hovering effect of all cards
+        // to indicate that are inaccessible
+        $('.card:not(.show)').toggleClass('noAccess');
+        console.log(`Cards accessible now: ${cardsAccessible}`);
+    }
+
+
+    // Store the card-access state in a variable
+    let cardsAccessible = true;
 
 
     const openCards = [];
@@ -270,7 +288,7 @@ $(function () {
             gameActive = true;
         }
         // Ensure only a single pair of cards can be open for a match-check at once
-        if(openCards.length === 2) {
+        if(!cardsAccessible) {
             // Prevent card flip
             return;
         } else {
@@ -278,7 +296,9 @@ $(function () {
             openCardLister(this);
             console.log(`Current cards open: ${openCards.length}.`);
             // If the list of un-matched open cards now has two cards...
-            if (openCards.length > 1) {
+            if (openCards.length === 2) {
+                // Block all card access while card pair is being viewed & evaluated
+                cardAccess(false);
                 // Increment the move count and update the score-panel display
                 scoreUpdater(++moveCount);
                 // Check if the two open cards match
