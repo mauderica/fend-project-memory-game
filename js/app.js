@@ -86,6 +86,8 @@ $(function () {
     function gameReset() {
         resetTimer($seconds, $minutes);
         deckSetter();
+        // Empty the array containing un-matched open cards
+        emptyArray(openCards);
         // Reset the score panel:
         moveCount = 0
         scoreUpdater(moveCount);

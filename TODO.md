@@ -49,4 +49,5 @@
 * Modal instead of congratulations pop-up. -- done
     * include necessary `<script>` in HTML. -- done
 * Responsive design for smaller screens. -- done
+* Fix: restart button functionality & test. -- done
 
